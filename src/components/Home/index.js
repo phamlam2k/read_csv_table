@@ -54,17 +54,11 @@ const Home = () => {
     if (dataSearch?.length > 0) {
       setDataFilter([])
       setDataHeader({})
-      setPage(1)
       setDataHeader(data?.data[0])
-      if (dataSearch.length < page * 10) {
-        for (let i = page * 10 - 10; i < dataSearch.length; i++) {
-          setDataFilter((prev) => [...prev, dataSearch[i]])
-        }
-      } else {
-        for (let i = page * 10 - 10; i <= page * 10; i++) {
-          setDataFilter((prev) => [...prev, dataSearch[i]])
-        }
+      for (let i = page * 10 - 10; i <= page * 10; i++) {
+        if (typeof dataSearch[i] !== 'undefined') setDataFilter((prev) => [...prev, dataSearch[i]])
       }
+
       setTotal(dataSearch?.length / 10)
     }
   }, [page, data, dataSearch])
@@ -82,10 +76,11 @@ const Home = () => {
       console.log('search', e.target.value)
       setDataSearch([])
       data?.data?.map((item, index) => {
-        if (index !== 0 && item[0].toLowerCase().includes(e.target.value)) {
+        if (index !== 0 && item[0].toLowerCase().includes(e.target.value.toLowerCase())) {
           setDataSearch((prev) => [...prev, item])
         }
       })
+      setPage(1)
     }
   }
 
