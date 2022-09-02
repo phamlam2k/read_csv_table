@@ -69,9 +69,9 @@ const Home = () => {
 
   const handleSearch = (e) => {
     if (data && e.keyCode === 13) {
+      setPage(1)
       if (e.target.value === '') {
         setDataSearch([])
-        setPage(1)
         return
       }
       setDataSearch([])
