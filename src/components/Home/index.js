@@ -71,16 +71,15 @@ const Home = () => {
     if (data && e.keyCode === 13) {
       if (e.target.value === '') {
         setDataSearch([])
+        setPage(1)
         return
       }
-      console.log('search', e.target.value)
       setDataSearch([])
       data?.data?.map((item, index) => {
         if (index !== 0 && item[0].toLowerCase().includes(e.target.value.toLowerCase())) {
           setDataSearch((prev) => [...prev, item])
         }
       })
-      setPage(1)
     }
   }
 

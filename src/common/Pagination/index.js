@@ -43,7 +43,7 @@ const Pagination = ({ total, handleIncrease, handleDecrease, handleInputNumber, 
               return (
                 <div
                   key={listIndex}
-                  onClick={() => page === 5 && handleInputNumber(listIndex)}
+                  onClick={() => page < 5 && handleInputNumber(listIndex)}
                   className={`cursor-pointer p-2 border-2 border-black ${
                     page >= 5 && page !== total - 1 && page !== total - 2 && 'bg-gray-400'
                   }`}
