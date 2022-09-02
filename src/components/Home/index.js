@@ -11,6 +11,7 @@ const styles = {
   },
   browseFile: {
     width: '20%',
+    cursor: 'pointer',
   },
   acceptedFile: {
     border: '1px solid #ccc',
@@ -32,22 +33,72 @@ const Home = () => {
   const { CSVReader } = useCSVReader()
   const [data, setData] = useState()
   const [dataFilter, setDataFilter] = useState([])
+  const [dataSearch, setDataSearch] = useState([])
   const [dataHeader, setDataHeader] = useState({})
   const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(0)
 
   useEffect(() => {
-    if (data) {
+    if (data && dataSearch?.length === 0) {
       setDataFilter([])
       setDataHeader({})
       setDataHeader(data?.data[0])
-      for (let i = page * 10 + 1 - 10; i <= page * 10 + 1; i++) {
+      for (let i = page * 10 + 1 - 10; i <= page * 10; i++) {
         setDataFilter((prev) => [...prev, data?.data[i]])
       }
+      setTotal(data?.data?.length / 10)
     }
-  }, [data, page])
+  }, [data, page, dataSearch])
+
+  useEffect(() => {
+    if (dataSearch?.length > 0) {
+      setDataFilter([])
+      setDataHeader({})
+      setPage(1)
+      setDataHeader(data?.data[0])
+      if (dataSearch.length < page * 10) {
+        for (let i = page * 10 - 10; i < dataSearch.length; i++) {
+          setDataFilter((prev) => [...prev, dataSearch[i]])
+        }
+      } else {
+        for (let i = page * 10 - 10; i <= page * 10; i++) {
+          setDataFilter((prev) => [...prev, dataSearch[i]])
+        }
+      }
+      setTotal(dataSearch?.length / 10)
+    }
+  }, [page, data, dataSearch])
 
   const handleInputNumber = (val) => {
     setPage(val)
+  }
+
+  const handleSearch = (e) => {
+    if (data && e.keyCode === 13) {
+      if (e.target.value === '') {
+        setDataSearch([])
+        return
+      }
+      console.log('search', e.target.value)
+      setDataSearch([])
+      data?.data?.map((item, index) => {
+        if (index !== 0 && item[0].toLowerCase().includes(e.target.value)) {
+          setDataSearch((prev) => [...prev, item])
+        }
+      })
+    }
+  }
+
+  const handleDecreasePage = () => {
+    if (dataFilter?.length > 0 && page > 1) {
+      setPage(page - 1)
+    }
+  }
+
+  const handleIncreasePage = () => {
+    if (page < total - 1) {
+      setPage(page + 1)
+    }
   }
 
   return (
@@ -78,11 +129,23 @@ const Home = () => {
             </CSVReader>
           </div>
         </div>
-        {data ? (
-          <div className="w-[90%] mx-auto mt-[30px] h-[550px] overflow-scroll">
+
+        <input
+          placeholder="Search for title"
+          className="w-[400px] rounded-3xl mx-auto mt-[20px] block py-3 pl-5"
+          onKeyDown={handleSearch}
+        />
+
+        {data && dataFilter.length > 0 ? (
+          <div
+            className={`w-[90%] mx-auto mt-[30px] ${dataFilter.length < 10 ? 'h-fit' : 'h-[650px]'} overflow-scroll`}
+          >
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">'>
                 <tr>
+                  <th scope="col" className="py-3 px-6">
+                    Order
+                  </th>
                   <th scope="col" className="py-3 px-6">
                     {dataHeader[0]}
                   </th>
@@ -125,6 +188,7 @@ const Home = () => {
                 {dataFilter?.map((item, index) => {
                   return (
                     <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      <td className="py-4 px-6 text-center">{index + 1}</td>
                       <td className="py-4 px-6">{item[0]}</td>
                       <td className="py-4 px-6">{item[1]}</td>
                       <td className="py-4 px-6">{item[2]}</td>
@@ -144,12 +208,20 @@ const Home = () => {
             </table>
           </div>
         ) : (
-          <div className="w-[90%] mx-auto mt-[30px] h-[550px]">
+          <div className="w-[90%] mx-auto mt-[30px] h-[550px] bg-white">
             <div className="w-[100%] text-center pt-[200px]">No data</div>
           </div>
         )}
         <div className="w-[90%] flex justify-end mt-[20px] pb-[30px]">
-          {data && <Pagination total={data?.data?.length / 10} handleInputNumber={handleInputNumber} />}
+          {data && (
+            <Pagination
+              total={total}
+              handleDecrease={handleDecreasePage}
+              handleIncrease={handleIncreasePage}
+              handleInputNumber={handleInputNumber}
+              page={page}
+            />
+          )}
         </div>
       </div>
     </PrivateLayout>
