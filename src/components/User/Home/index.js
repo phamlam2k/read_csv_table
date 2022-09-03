@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useCSVReader } from 'react-papaparse'
-import Pagination from '../../common/Pagination'
-import PrivateLayout from '../../layout/PrivateLayout'
+import Pagination from '../../../common/Pagination'
+import PrivateLayout from '../../../layout/PrivateLayout'
 
 const styles = {
   csvReader: {
