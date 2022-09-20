@@ -2,7 +2,7 @@ import { Redirect, Route } from 'react-router-dom'
 import { isAdmin, isUser } from '../config/function'
 import { LOGIN, USER } from '../config/path'
 
-const AdminRouter = ({ components: Component, path }) => {
+const AdminRouter = ({ component: Component, path }) => {
   return (
     <Route
       path={path}
