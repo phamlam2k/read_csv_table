@@ -1,11 +1,7 @@
-import Home from './components/Home/index'
+import AppRouter from './router'
 
 function App() {
-  return (
-    <div className="">
-      <Home />
-    </div>
-  )
+  return <AppRouter />
 }
 
 export default App
