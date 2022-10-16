@@ -31,7 +31,9 @@ const Home = () => {
       setDataHeader()
       let arr = []
       setDataHeader(dataInformation[0])
-
+      if (page === 1) {
+      } else {
+      }
       for (let i = page * 50 - 50; i < page * 50; i++) {
         arr.push(dataInformation[i] || [])
       }
@@ -103,6 +105,8 @@ const Home = () => {
     setPage(e)
   }
 
+  const handleSearch = () => {}
+
   useEffect(() => {
     void getDataInformation()
   }, [])
@@ -114,84 +118,57 @@ const Home = () => {
   return (
     <PrivateLayout>
       <div className="w-[100%] bg-slate-300">
-        {/* <div className="w-[550px] mx-auto">
-          <div className="text-[22px] text-center py-[20px]">Add file csv to convert to table in website</div>
-          <div className="p-[10px] pt-[20px] shadow-xl bg-white text-black">
-            <CSVReader
-              onUploadAccepted={(results) => {
-                setData(results)
-              }}
-            >
-              {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }) => (
-                <>
-                  <div style={styles.csvReader}>
-                    <button type="button" {...getRootProps()} style={styles.browseFile}>
-                      Browse file
-                    </button>
-                    <div style={styles.acceptedFile}>{acceptedFile && acceptedFile.name}</div>
-                    <button {...getRemoveFileProps()} style={styles.remove}>
-                      Remove
-                    </button>
-                  </div>
-                  <ProgressBar style={styles.progressBarBackgroundColor} />
-                </>
-              )}
-            </CSVReader>
-          </div>
-        </div> */}
-
-        {/* <input
-          placeholder="Search for title"
-          className="w-[400px] rounded-3xl mx-auto mt-[20px] block py-3 pl-5"
-          onKeyDown={handleSearch}
-        /> */}
+        <div className="pt-[30px]">
+          <input
+            placeholder="Search for title"
+            className="w-[400px] rounded-3xl mx-auto block py-3 pl-5"
+            onKeyDown={handleSearch}
+          />
+        </div>
 
         {dataInformation && dataInformation.length > 0 ? (
           <div
             className={`w-[90%] mx-auto mt-[30px] ${
               dataInformation.length < 10 ? 'h-fit' : 'h-[650px]'
-            } overflow-scroll`}
+            } overflow-y-scroll`}
           >
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">'>
                 <tr>
-                  <th scope="col" className="py-3 px-6">
-                    Order
-                  </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="py-3 px-3">
                     {dataHeader[0]}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="py-3 px-3">
                     {dataHeader[1]}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="py-3 px-3">
                     {dataHeader[2]}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="py-3 px-3">
                     {dataHeader[3]}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="py-3 px-3">
                     {dataHeader[4]}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="py-3 px-3">
                     {dataHeader[5]}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="py-3 px-3">
                     {dataHeader[6]}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="py-3 px-3">
                     {dataHeader[7]}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="py-3 px-3">
                     {dataHeader[8]}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="py-3 px-3">
                     {dataHeader[9]}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="py-3 px-3">
                     {dataHeader[10]}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="py-3 px-3">
                     {dataHeader[11]}
                   </th>
                 </tr>
@@ -200,19 +177,18 @@ const Home = () => {
                 {dataFilter?.map((item, index) => {
                   return (
                     <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <td className="py-4 px-6 text-center">{index + 1}</td>
-                      <td className="py-4 px-6">{item[0]}</td>
-                      <td className="py-4 px-6">{item[1]}</td>
-                      <td className="py-4 px-6">{item[2]}</td>
-                      <td className="py-4 px-6">{item[3]}</td>
-                      <td className="py-4 px-6">{item[4]}</td>
-                      <td className="py-4 px-6">{item[5]}</td>
-                      <td className="py-4 px-6">{item[6]}</td>
-                      <td className="py-4 px-6">{item[7]}</td>
-                      <td className="py-4 px-6">{item[8]}</td>
-                      <td className="py-4 px-6">{item[9]}</td>
-                      <td className="py-4 px-6">{item[10]}</td>
-                      <td className="py-4 px-6">{item[11]}</td>
+                      <td className="py-4 px-3">{item[0]}</td>
+                      <td className="py-4 px-3">{item[1]}</td>
+                      <td className="py-4 px-3">{item[2]}</td>
+                      <td className="py-4 px-3">{item[3]}</td>
+                      <td className="py-4 px-3">{item[4]}</td>
+                      <td className="py-4 px-3">{item[5]}</td>
+                      <td className="py-4 px-3">{item[6]}</td>
+                      <td className="py-4 px-3">{item[7]}</td>
+                      <td className="py-4 px-3">{item[8]}</td>
+                      <td className="py-4 px-3">{item[9]}</td>
+                      <td className="py-4 px-3">{item[10]}</td>
+                      <td className="py-4 px-3">{item[11]}</td>
                     </tr>
                   )
                 })}
