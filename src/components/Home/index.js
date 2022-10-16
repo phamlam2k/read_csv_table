@@ -32,10 +32,13 @@ const Home = () => {
       let arr = []
       setDataHeader(dataInformation[0])
       if (page === 1) {
+        for (let i = 1; i < page * 50; i++) {
+          arr.push(dataInformation[i] || [])
+        }
       } else {
-      }
-      for (let i = page * 50 - 50; i < page * 50; i++) {
-        arr.push(dataInformation[i] || [])
+        for (let i = page * 50 - 50; i < page * 50; i++) {
+          arr.push(dataInformation[i] || [])
+        }
       }
       setDataFilter(arr)
       setTotal(Math.floor(dataInformation?.length / 50) + 2)
